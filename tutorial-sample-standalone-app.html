@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Hyperledger Fabric SDK for node.js Index</title>
+	<title>Hyperledger Fabric SDK for node.js Tutorial: sample-standalone-app</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -81,75 +81,56 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
-			
+			<section class="tutorial-section">
 
-	
-	
+<header>
+    
 
+    <h2>sample-standalone-app</h2>
+</header>
 
-
-
-
-
-
-
-
-
-
-	
-	
-
-
-
-
-
-    <section class="readme-section">
-        <article><h1>Hyperledger fabric Client (HFC) SDK for Node.js</h1><p>The Hyperledger fabric Client (HFC) SDK for Node.js provides a powerful and easy to use API to interact with a Hyperledger fabric blockchain. The HFC is designed to be used in the Node.js JavaScript runtime.</p>
-<h4>Overview and Deep Dive</h4><ul>
-<li><p><a href="app-overview.md">Application Developer's Overview</a> for a topological overview of applications and a blockchain.</p>
+<article>
+    <h1>Node.js Standalone Application in Vagrant</h1><p>This section describes how to run a sample standalone Node.js application which interacts with a Hyperledger fabric blockchain.</p>
+<ul>
+<li><p>If you haven't already done so, see <a href="app-developer-env-setup.md">Setting Up The Application Development Environment</a> to get your environment set up.  The remaining steps assume that you are running <strong>inside the vagrant environment</strong>.</p>
 </li>
-<li><p><a href="node-sdk-indepth.md">Hyperledger fabric Client (HFC) SDK for Node.js</a> the Node.js client SDK in more depth</p>
+<li><p>Issue the following commands to build the Node.js Client SDK:</p>
 </li>
 </ul>
-<h4>Development Environment Choices</h4><ul>
-<li><p><em>Recommended:</em> <a href="http://hyperledger-fabric.readthedocs.io/en/latest/#fabric-starter-kit">Fabric-starter-kit</a> uses pre-built docker images for the Node.js client application interacting with Hyperledger fabric blockchain. This environment may suffice for a majority of Node.js application developers. The environment contains a built-in standalone sample ready to go.</p>
-</li>
-<li><p><a href="app-developer-env-setup.md">Full Hyperledger fabric development environment</a> on how to set up an environment for developing chaincode and applications.</p>
-<p><strong>Note:</strong> Only recommended for development of the Hyperledger fabric Client SDK itself.</p>
+<pre class="prettyprint source"><code>   cd /opt/gopath/src/github.com/hyperledger/fabric
+   &lt;TBD make node-sdk></code></pre><ul>
+<li>Start the membership services and peer processes.  We run the peer in dev mode for simplicity.</li>
+</ul>
+<pre class="prettyprint source"><code>   cd /opt/gopath/src/github.com/hyperledger/fabric/build/bin
+   membersrvc > membersrvc.log 2>&1&
+   peer node start --peer-chaincodedev > peer.log 2>&1&</code></pre><ul>
+<li>Build and run chaincode example 2:</li>
+</ul>
+<pre class="prettyprint source"><code>   cd /opt/gopath/src/github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02
+   go build
+   CORE_CHAINCODE_ID_NAME=mycc CORE_PEER_ADDRESS=0.0.0.0:7051 ./chaincode_example02 > log 2>&1&</code></pre><ul>
+<li><p>Put the following sample app in a file named <strong>app.js</strong> in the <em>/tmp</em> directory.  Take a moment (now or later) to read the comments and code to begin to learn the Node.js Client SDK APIs.</p>
+<p> You may retrieve the <a href="https://raw.githubusercontent.com/hyperledger/fabric/master/examples/sdk/node/app.js">sample application</a> file:</p>
+<pre class="prettyprint source"><code>  cd /tmp
+  curl -o app.js https://raw.githubusercontent.com/hyperledger/fabric/master/examples/sdk/node/app.js</code></pre></li>
+<li><p>Run <strong>npm</strong> to install Hyperledger Fabric Node.js SDK in the <code>/tmp</code> directory</p>
+<pre class="prettyprint source"><code>   npm install /opt/gopath/src/github.com/hyperledger/fabric-sdk-node</code></pre></li>
+<li><p>To run the application :</p>
 </li>
 </ul>
-<h4>Sample Code</h4><ul>
-<li><p><a href="sample-standalone-app.md">Node.js Standalone Application in Vagrant</a> for a sample standalone Node.js application running in the full development environment within Vagrant.</p>
-</li>
-<li><p><a href="sample-web-app.md">Node.js Web Application</a> for a sample web application and to see how to use the Node.js client SDK for a sample web app leveraging the client SDK to interact with a blockchain network.</p>
-</li>
-</ul>
-<h4>Related information</h4><ul>
-<li><p>To build the reference documentation for the Node.js client SDK APIs follow the instructions <a href="app-developer-env-setup.md">here</a>.</p>
-</li>
-<li><p>To learn more about chaincode, see <a href="http://hyperledger-fabric.readthedocs.io/en/latest/Setup/Chaincode-setup">Writing, Building, and Running Chaincode in a Development Environment</a>.</p>
-</li>
-</ul></article>
-    </section>
+<pre class="prettyprint source"><code>     CORE_CHAINCODE_ID_NAME=mycc CORE_PEER_ADDRESS=0.0.0.0:7051 MEMBERSRVC_ADDRESS=0.0.0.0:7054 DEPLOY_MODE=dev node app</code></pre><p>Congratulations!  You've successfully run your first Hyperledger fabric application.</p>
+</article>
 
-
-
-
-
-
+</section>
 
 		</div>
 	</div>
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>

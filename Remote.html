@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Hyperledger Fabric SDK for node.js Index</title>
+	<title>Hyperledger Fabric SDK for node.js Class: Remote</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -86,57 +86,390 @@
 		<div id="main">
 			
 
+	<h1 class="page-title">Class: Remote</h1>
+<section>
+
+<header>
+    
+        <h2>
+        Remote
+        </h2>
+        
+            <div class="class-description">The Remote class represents a the base class for all remote nodes, Peer, Orderer , and MemberServicespeer.</div>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+<hr>
+<dt>
+    <h4 class="name" id="Remote"><span class="type-signature"></span>new Remote(url, opts)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Constructs an object with the endpoint configuration settings.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The orderer URL with format of 'grpc(s)://host:port'.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An Object that may contain options to pass to grpcs calls
+<br>- pem {string} The certificate file, in PEM format,
+   to use with the gRPC protocol (that is, with TransportCredentials).
+   Required when using the grpcs protocol.
+<br>- ssl-target-name-override {string} Used in test environment only, when the server certificate's
+   hostname (in the 'CN' field) does not match the actual host endpoint that the server process runs
+   at, the application can work around the client TLS verify failure by setting this property to the
+   value of the server certificate's hostname
+<br>- any other standard grpc call options will be passed to the grpc service calls directly</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
 	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
 	
 
 
 
+	
+
+	
+
+	
+
+	
+</dl>
 
 
+    
 
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="getUrl"><span class="type-signature"></span>getUrl()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Get the URL of the orderer.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
 
 
 
 	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Get the URL associated with the Orderer.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        return a printable representation of this object
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
 	
 
 
 
+	
+
+	
+
+	
+
+	
+</dl>
 
 
-    <section class="readme-section">
-        <article><h1>Hyperledger fabric Client (HFC) SDK for Node.js</h1><p>The Hyperledger fabric Client (HFC) SDK for Node.js provides a powerful and easy to use API to interact with a Hyperledger fabric blockchain. The HFC is designed to be used in the Node.js JavaScript runtime.</p>
-<h4>Overview and Deep Dive</h4><ul>
-<li><p><a href="app-overview.md">Application Developer's Overview</a> for a topological overview of applications and a blockchain.</p>
-</li>
-<li><p><a href="node-sdk-indepth.md">Hyperledger fabric Client (HFC) SDK for Node.js</a> the Node.js client SDK in more depth</p>
-</li>
-</ul>
-<h4>Development Environment Choices</h4><ul>
-<li><p><em>Recommended:</em> <a href="http://hyperledger-fabric.readthedocs.io/en/latest/#fabric-starter-kit">Fabric-starter-kit</a> uses pre-built docker images for the Node.js client application interacting with Hyperledger fabric blockchain. This environment may suffice for a majority of Node.js application developers. The environment contains a built-in standalone sample ready to go.</p>
-</li>
-<li><p><a href="app-developer-env-setup.md">Full Hyperledger fabric development environment</a> on how to set up an environment for developing chaincode and applications.</p>
-<p><strong>Note:</strong> Only recommended for development of the Hyperledger fabric Client SDK itself.</p>
-</li>
-</ul>
-<h4>Sample Code</h4><ul>
-<li><p><a href="sample-standalone-app.md">Node.js Standalone Application in Vagrant</a> for a sample standalone Node.js application running in the full development environment within Vagrant.</p>
-</li>
-<li><p><a href="sample-web-app.md">Node.js Web Application</a> for a sample web application and to see how to use the Node.js client SDK for a sample web app leveraging the client SDK to interact with a blockchain network.</p>
-</li>
-</ul>
-<h4>Related information</h4><ul>
-<li><p>To build the reference documentation for the Node.js client SDK APIs follow the instructions <a href="app-developer-env-setup.md">here</a>.</p>
-</li>
-<li><p>To learn more about chaincode, see <a href="http://hyperledger-fabric.readthedocs.io/en/latest/Setup/Chaincode-setup">Writing, Building, and Running Chaincode in a Development Environment</a>.</p>
-</li>
-</ul></article>
-    </section>
+    
 
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
