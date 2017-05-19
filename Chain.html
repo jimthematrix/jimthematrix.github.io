@@ -40,14 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
+					<li><a href="BlockDecoder.html">BlockDecoder</a></li><li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="tutorial-app-developer-env-setup.html">app-developer-env-setup</a></li><li><a href="tutorial-index_.html">index</a></li><li><a href="tutorial-node-sdk-guide.html">node-sdk-guide</a></li><li><a href="tutorial-node-sdk-indepth.html">node-sdk-indepth</a></li><li><a href="tutorial-sample-standalone-app.html">sample-standalone-app</a></li><li><a href="tutorial-sample-web-app.html">sample-web-app</a></li>
+					<li><a href="tutorial-app-dev-env-setup.html">Setting up the Application Developer's Environment</a></li><li><a href="tutorial-index_.html">Hyperledger Fabric SDK for Node.js Overview</a></li>
 				</ul>
 			</li>
 			
@@ -686,7 +686,7 @@ All APIs concerning the orderer will broadcast to all orderers simultaneously.
             
 
             <td class="description last">An instance of the Peer class that has been initialized with URL,
-TLC certificate, and enrollment certificate.</td>
+TLS certificate, and enrollment certificate.</td>
         </tr>
 
     
@@ -1056,6 +1056,168 @@ This transaction will be made to the orderer.
             
 <hr>
 <dt>
+    <h4 class="name" id="getGenesisBlock"><span class="type-signature"></span>getGenesisBlock(request)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Will get the genesis block from the defined orderer that may be
+used in a join request
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>request</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object containing the following fields:
+		<br>`txId` : required - String of the transaction id
+		<br>`nonce` : required - Integer of the once time number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>/protos/peer/proposal_response.proto</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    A Promise for a protobuf `Block`
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
     <h4 class="name" id="getMSPManager"><span class="type-signature"></span>getMSPManager()</h4>
     
     
@@ -1334,7 +1496,7 @@ This transaction will be made to the orderer.
             
 <hr>
 <dt>
-    <h4 class="name" id="getOrganizationUnits"><span class="type-signature"></span>getOrganizationUnits()</h4>
+    <h4 class="name" id="getOrganizations"><span class="type-signature"></span>getOrganizations()</h4>
     
     
 </dt>
@@ -1342,8 +1504,7 @@ This transaction will be made to the orderer.
 
     
     <div class="description">
-        Get organizational unit identifiers from
-the MSP's for this channel
+        Get organization identifiers from the MSP's for this channel
     </div>
     
 
@@ -1408,6 +1569,11 @@ the MSP's for this channel
     <h5>Returns:</h5>
     
             
+<div class="param-desc">
+    array of MSP identifiers representing the channel's
+  participating organizations
+</div>
+
 
 
 <dl>
@@ -1640,85 +1806,7 @@ on the list will be used.
             
 <hr>
 <dt>
-    <h4 class="name" id="getTCertBatchSize"><span class="type-signature"></span>getTCertBatchSize()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Get the tcert batch size.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize(config)</h4>
+    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize(config_update-)</h4>
     
     
 </dt>
@@ -1763,7 +1851,7 @@ without making the call to the orderer.
 
         <tr>
             
-                <td class="name"><code>config</code></td>
+                <td class="name"><code>config_update-</code></td>
             
 
             <td class="type">
@@ -1780,7 +1868,7 @@ without making the call to the orderer.
 
             
 
-            <td class="description last">Optional - A serialized form of the protobuf configuration update envelope</td>
+            <td class="description last">Optional - A serialized form of the protobuf configuration update</td>
         </tr>
 
     
@@ -1851,84 +1939,6 @@ without making the call to the orderer.
 
 
         
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="isPreFetchMode"><span class="type-signature"></span>isPreFetchMode()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Determine if pre-fetch mode is enabled to prefetch tcerts.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
 </dd>
@@ -2041,84 +2051,6 @@ can be queried but no new transactions can be submitted.
             
 <hr>
 <dt>
-    <h4 class="name" id="isSecurityEnabled"><span class="type-signature"></span>isSecurityEnabled()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Determine if security is enabled.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
     <h4 class="name" id="joinChannel"><span class="type-signature"></span>joinChannel(request)</h4>
     
     
@@ -2182,10 +2114,12 @@ in the proposal.
             
 
             <td class="description last">An object containing the following fields:
-		<br>`targets` : required - An array of `Peer` objects that will join
-                     this channel
-		<br>`txId` : required - String of the transaction id
-		<br>`nonce` : required - Integer of the once time number</td>
+  <br>`targets` : required - An array of `Peer` objects that will join
+                  this channel
+  <br>`block` : the genesis block of the channel
+                see getGenesisBlock() method
+  <br>`txId` : required - String of the transaction id
+  <br>`nonce` : required - Integer of the once time number</td>
         </tr>
 
     
@@ -2658,7 +2592,10 @@ these results
 		<br>targets : An array or single Endorsing <a href="Peer.html">Peer</a> objects as the targets of the request
 		<br>chaincodeId : The id of the chaincode to perform the query
 		<br>`args` : an array of arguments specific to the chaincode 'innvoke'
-            that represent a query invocation on that chaincode</td>
+            that represent a query invocation on that chaincode
+  	<br>`transientMap` : optional - <string, byte[]> map that can be used by
+			the chaincode but not saved in the ledger, such as cryptographic information
+			for encryption</td>
         </tr>
 
     
@@ -3426,17 +3363,19 @@ This query will be made to the primary peer.
             
 
             <td class="description last">An object containing the following fields:
-		<br>`targets` : optional -- The peers that will receive this request,
-		              when not provided the peers assigned to this channel will
-		              be used.
+		<br>`targets` : Optional : An array of endorsing <a href="Peer.html">Peer</a> objects as the
+                     targets of the request. The list of endorsing peers will be used if
+                     this parameter is omitted.
 		<br>`chaincodeType` : optional -- Type of chaincode ['golang', 'car', 'java']
                            (default 'golang')
 		<br>`chaincodePath` : required - String of the path to location of
                            the source code of the chaincode
 		<br>`chaincodeId` : required - String of the name of the chaincode
 		<br>`chaincodeVersion` : required - String of the version of the chaincode
-		<br>`chainId` : required - String of the name of the chain
 		<br>`txId` : required - String of the transaction id
+  	<br>`transientMap` : optional - <string, byte[]> map that can be used by
+			the chaincode but not saved in the ledger, such as cryptographic information
+			for encryption
 		<br>`nonce` : required - Integer of the once time number
 		<br>`fcn` : optional - String of the function to be called on
                  the chaincode once instantiated (default 'init')
@@ -3832,9 +3771,11 @@ with the original proposal request sent to the endorser.
 		              when not provided the peers assigned to this channel will
 		              be used.
 		<br>`chaincodeId` : The id of the chaincode to perform the transaction proposal
-		<br>`chainId` : required - String of the name of the chain
 		<br>`txId` : required - String of the transaction id
 		<br>`nonce` : required - Integer of the once time number
+  	<br>`transientMap` : optional - <string, byte[]> map that can be used by
+			the chaincode but not saved in the ledger, such as cryptographic information
+			for encryption
 		<br>`args` : an array of arguments specific to the chaincode 'invoke'</td>
         </tr>
 
@@ -3878,6 +3819,182 @@ with the original proposal request sent to the endorser.
 
 	
 
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    A Promise for a `ProposalResponse`
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="sendUpgradeProposal"><span class="type-signature"></span>sendUpgradeProposal(request)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Sends an upgrade proposal to one or more endorsing peers.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>request</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object containing the following fields:
+		<br>`targets` : An array of endorsing <a href="Peer.html">Peer</a> objects as the
+                     targets of the request
+		<br>`chaincodeType` : optional -- Type of chaincode ['golang', 'car', 'java']
+                           (default 'golang')
+		<br>`chaincodePath` : required - String of the path to location of
+                           the source code of the chaincode
+		<br>`chaincodeId` : required - String of the name of the chaincode
+		<br>`chaincodeVersion` : required - String of the version of the chaincode
+		<br>`txId` : required - String of the transaction id
+  	<br>`transientMap` : optional - <string, byte[]> map that can be used by
+			the chaincode but not saved in the ledger, such as cryptographic information
+			for encryption
+		<br>`nonce` : required - Integer of the once time number
+		<br>`fcn` : optional - String of the function to be called on
+                 the chaincode once instantiated (default 'init')
+		<br>`args` : optional - String Array arguments specific to
+                  the chaincode being instantiated</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>/protos/peer/proposal_response.proto</li>
+			</ul>
+	</dd>
 	
 
 	
@@ -3998,84 +4115,6 @@ the MSP's found.
     </tbody>
 </table>
 
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="setPreFetchMode"><span class="type-signature"></span>setPreFetchMode()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Set prefetch mode to true or false.
-    </div>
-    
-
-    
-
-    
-
-    
     
 
     
@@ -4281,84 +4320,6 @@ on the list will be used.
             
 <hr>
 <dt>
-    <h4 class="name" id="setTCertBatchSize"><span class="type-signature"></span>setTCertBatchSize()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Set the tcert batch size.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
     <h4 class="name" id="toString"><span class="type-signature"></span>toString()</h4>
     
     
@@ -4429,110 +4390,6 @@ on the list will be used.
     
 
     
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="updateChain"><span class="type-signature"></span>updateChain()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Calls the orderer(s) to update an existing chain. This allows the addition and
-deletion of Peer nodes to an existing chain, as well as the update of Peer
-certificate information upon certificate renewals.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Whether the chain update process was successful.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -4756,7 +4613,7 @@ The verifications performed are
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on 2017-03-29T16:46:42-04:00
+		on 2017-05-18T23:57:23-04:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

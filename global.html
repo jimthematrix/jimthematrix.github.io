@@ -40,14 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
+					<li><a href="BlockDecoder.html">BlockDecoder</a></li><li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="tutorial-app-developer-env-setup.html">app-developer-env-setup</a></li><li><a href="tutorial-index_.html">index</a></li><li><a href="tutorial-node-sdk-guide.html">node-sdk-guide</a></li><li><a href="tutorial-node-sdk-indepth.html">node-sdk-indepth</a></li><li><a href="tutorial-sample-standalone-app.html">sample-standalone-app</a></li><li><a href="tutorial-sample-web-app.html">sample-web-app</a></li>
+					<li><a href="tutorial-app-dev-env-setup.html">Setting up the Application Developer's Environment</a></li><li><a href="tutorial-index_.html">Hyperledger Fabric SDK for Node.js Overview</a></li>
 				</ul>
 			</li>
 			
@@ -166,6 +166,875 @@
         <h3 class="subsection-title">Type Definitions</h3>
 
         <dl>
+                
+<hr>
+<dt class="name" id="Block">
+    <h4 id="Block">Block</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "Block".
+<br>A Block will contain the configuration of the channel or
+transactions on the channel. The description area below shows the
+properties of the "Block" object. When the property name does not have a
+data type next to it (e.g. -- {int}) then assume it is an object and
+the indented names below it are it's properties. Complex properties
+shown within the description area are listed under the "Properties"
+section (e.g. {Header}). Use the links under the "Type" column
+to see the description of that object type.
+<br><br>When assigning the results of a block
+query or block event to a variable called <code>block</code> for example,
+then to get the block number use
+<br><code>var block_num = block.header.number;</code>
+<br>or to see the first transaction id in the block use
+<br><code> var tx_id = block.data.data[0].payload.header.channel_header.tx_id;</code>
+<br><br>A "Block" will have the following JSON layout.
+<br><pre>
+header
+   number -- {int}
+   previous_hash -- {byte}
+   data_hash -- {byte}
+data
+   data -- [array]
+      signature -- {byte}
+      payload
+         header -- {Header}
+         data -- {Config | Transaction}
+metadata
+   metadata -- [array] #each array item has it's own layout
+      [0] #SIGNATURES
+         signatures -- [array]
+            signature_header
+               creator
+                  Mspid -- {string}
+                  IdBytes -- {byte}
+               nonce -- {byte}
+            signature -- {byte}
+      [1] #LAST_CONFIG
+         value
+            index -- {number}
+         signatures -- [array]
+            signature_header
+               creator
+                  Mspid -- {string}
+                  IdBytes -- {byte}
+               nonce -- {byte}
+            signature -- {byte}
+      [2] #TRANSACTIONS_FILTER
+          [int] #see TxValidationCode in proto/peer/transaction.proto
+ </pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>header</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Header">Header</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The header of the block</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Config">Config</a></span>
+|
+
+<span class="param-type"><a href="global.html#Transaction">Transaction</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The data bytes will be based on the block.header.channel_header.type</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/common.proto</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="Config">
+    <h4 id="Config">Config</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "Config".
+<br>The config object will contain the current channel configuration.
+<br><br>A "Config" will have the following JSON layout.
+<br><pre>
+config
+   sequence -- {int}
+   channel_group -- {ConfigGroup}
+last_update
+   signature -- {byte}
+   payload
+      header -- {Header}
+      data -- {ConfigUpdate}
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>header</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Header">Header</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channel_group</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#ConfigGroup">ConfigGroup</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#ConfigUpdate">ConfigUpdate</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/common.proto</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="ConfigGroup">
+    <h4 id="ConfigGroup">ConfigGroup</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "ConfigGroup".
+<br>The "ConfigGroup" described here is one that represents the
+whole configuration of the channel. A "ConfigGroup" object
+is used to describe the current configuration and it is also
+used to describe the updates to a configuration.
+Only those fields being updated will be present when used to describe
+a configuration update.
+<br><br>A channel level "ConfigGroup" will have the following JSON layout.
+<br><pre>
+      version -- {int}
+      mod_policy -- {string}
+      groups
+         Orderer
+            version -- {int}
+            groups -- [array]
+               &ltorderer&gt -- {Organization}
+            values
+               ConsensusType
+                  version -- {int}
+                  mod_policy -- {string}
+                  value
+                     type -- {string}
+               BatchSize
+                  version -- {int}
+                  mod_policy -- {string}
+                  value
+                     maxMessageCount -- {int}
+                     absoluteMaxBytes -- {int}
+                     preferredMaxBytes -- {int}
+               BatchTimeout
+                  version -- {int}
+                  mod_policy -- {string}
+                  value
+                     timeout -- {duration}
+               ChannelRestrictions
+                  version -- {int}
+                  mod_policy -- {string}
+                  value
+                     max_count -- {int}
+            policies
+               Admins
+                  version -- {int}
+                  mod_policy -- {string}
+                  policy -- {ImplicitMetaPolicy}
+               Writers
+                  version -- {int}
+                  mod_policy -- {string}
+                  policy -- {ImplicitMetaPolicy}
+               Readers
+                  version -- {int}
+                  mod_policy -- {string}
+                  policy -- {ImplicitMetaPolicy}
+               BlockValidation
+                  version -- {int}
+                  mod_policy -- {string}
+                  policy -- {SignaturePolicy}
+         Application
+            version -- {int}
+            groups
+               &ltpeer&gt -- {Organization}
+            values
+            policies
+               Admins -- {ImplicitMetaPolicy}
+                  version -- {int}
+                  mod_policy -- {string}
+                  policy -- {ImplicitMetaPolicy}
+               Writers -- {ImplicitMetaPolicy}
+                  version -- {int}
+                  mod_policy -- {string}
+                  policy -- {ImplicitMetaPolicy}
+               Readers -- {ImplicitMetaPolicy}
+                  version -- {int}
+                  mod_policy -- {string}
+                  policy -- {ImplicitMetaPolicy}
+      values
+         OrdererAddresses
+            version -- {int}
+            mod_policy -- {string}
+            value
+               addresses -- [array]
+                   {string - host:port}
+         HashingAlgorithm
+            version -- {int}
+            mod_policy -- {string}
+            value
+               name -- {string}
+         BlockDataHashingStructure
+            version -- {int}
+            mod_policy -- {string}
+            value
+               width -- {int}
+         Consortium
+            version -- {int}
+            mod_policy -- {string}
+            value
+               name -- {string}
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>&ltorderer&gt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Organization">Organization</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">These are the defined "Orderer"s on the network</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>&ltpeer&gt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Organization">Organization</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">These are the defined "Peer"s on the network</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>policy</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#ImplicitMetaPolicy">ImplicitMetaPolicy</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">These policies point to other policies</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>policy</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#SignaturePolicy">SignaturePolicy</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/configtx.proto</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="ConfigUpdate">
+    <h4 id="ConfigUpdate">ConfigUpdate</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "ConfigUpdate".
+<br><br>A "ConfigUpdate" will have the following JSON layout.
+<br><pre>
+   channel_id -- {string}
+   read_set -- {ConfigGroup}
+   write_set -- {ConfigGroup}
+   signatures -- [array]
+      signature_header
+         creator
+            Mspid -- {string}
+            Idbytes -- {byte}
+         signature -- {byte}
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>read_set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#ConfigGroup">ConfigGroup</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A top level GRPC message "ConfigGroup" that
+          represents the current version numbers of the all configuration items
+          being updated</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>write_set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#ConfigGroup">ConfigGroup</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A top level GRPC message "ConfigGroup that
+          represents the all configuration items being updated. Must have a
+          version number one greater than the version number of the same item
+          in the read_set along with the new value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/configtx.proto</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
                 
 <hr>
 <dt class="name" id="EnrollmentResponse">
@@ -301,6 +1170,99 @@ certificate authority</td>
 
 	
 
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="Header">
+    <h4 id="Header">Header</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "Header".
+<br><br>A "Header" will have the following JSON layout.
+<br><pre>
+   channel_header
+      type -- {string}
+      version -- {int}
+      timestamp -- {time}
+      channel_id -- {string}
+      tx_id -- {string}
+      epoch -- {int}
+   signature_header
+      creator
+         Mspid -- {string}
+            IdBytes -- {byte}
+            nonce -- {string}
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/common.proto</li>
+			</ul>
+	</dd>
 	
 
 	
@@ -637,6 +1599,93 @@ certificate authority</td>
             
                 
 <hr>
+<dt class="name" id="ImplicitMetaPolicy">
+    <h4 id="ImplicitMetaPolicy">ImplicitMetaPolicy</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "Policy" that are
+of type "ImplicitMetaPolicy".
+<br><br>A "ImplicitMetaPolicy" will have the following JSON layout.
+<br><pre>
+type -- IMPLICIT_META
+policy
+   policy
+      sub_policy -- {string}
+      rule -- ANY | ALL | MAJORITY
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/policies</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
 <dt class="name" id="KeyValueAttribute">
     <h4 id="KeyValueAttribute">KeyValueAttribute</h4>
 
@@ -769,6 +1818,177 @@ certificate authority</td>
 
 	
 
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
+<dt class="name" id="Organization">
+    <h4 id="Organization">Organization</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "ConfigGroup".
+<br>The "ConfigGroup" described here is one that a single
+Organization on the Channel.
+<br><br>A organizational "ConfigGroup" will have the following JSON layout.
+<br><pre>
+version -- {int}
+mod_policy -- {string}
+groups
+values
+   MSP
+      version -- {int}
+      mod_policy -- {string}
+      value
+         type -- {int}
+         config
+            name -- {string}
+            root_certs -- [array]
+                {string}
+            intermediate_certs -- [array]
+                {string}
+            admins -- [array]
+                {string}
+            revocation_list -- [array]
+                {string}
+            signing_identity -- {byte}
+            organizational_unit_identifiers -- [array]
+                {string}
+policies
+   Admins
+      version -- {int}
+      mod_policy -- {string}
+      policy -- {SignaturePolicy}
+   Writers
+      version -- {int}
+      mod_policy -- {string}
+      policy -- {SignaturePolicy}
+   Readers
+      version -- {int}
+      mod_policy -- {string}
+      policy -- {SignaturePolicy}
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>policy</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#SignaturePolicy">SignaturePolicy</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">These are the polices that have been pointed to by the implicit policies</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/configtx.proto</li>
+			</ul>
+	</dd>
 	
 
 	
@@ -1197,6 +2417,101 @@ array of identities specified in the policy. If the type property is "n-of", the
             
                 
 <hr>
+<dt class="name" id="SignaturePolicy">
+    <h4 id="SignaturePolicy">SignaturePolicy</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "Policy" that are
+of type "SignaturePolicy".
+<br><br>A "SignaturePolicy" will have the following JSON layout.
+<br><pre>
+type -- SIGNATURE
+policy
+   policy
+      Type -- n_out_of
+      n_out_of
+         N -- {int}
+         policies -- [array]
+            Type -- signed_by
+            signed_by -- {int}
+      identities -- [array]
+         principal_classification -- {int}
+         msp_identifier -- {string}
+         Role -- MEMBER | ADMIN
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/common/policies</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+            
+                
+<hr>
 <dt class="name" id="TLSOptions">
     <h4 id="TLSOptions">TLSOptions</h4>
 
@@ -1366,6 +2681,123 @@ array of identities specified in the policy. If the type property is "n-of", the
     
 </dd>
 
+            
+                
+<hr>
+<dt class="name" id="Transaction">
+    <h4 id="Transaction">Transaction</h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        The JSON representation of a GRPC message "Transaction"
+<br><br>A "Transaction" will have the following JSON layout.
+<br><pre>
+actions
+   chaincode_proposal_payload
+      input -- {byte}
+   action
+      proposal_response_payload
+         proposal_hash -- {byte}
+         extension
+            results
+               data_model -- {int}
+               ns_rwset -- [array]
+                  namespace -- {string}
+                  rwset
+                     reads -- [array]
+                        key -- {string}
+                        version
+                           block_num -- {number}
+                           tx_num -- {number}
+                     range_queries_info -- [array]
+                     writes -- [array]
+                        key -- {string}
+                        is_delete -- {boolean}
+                        value -- {string}
+            events
+               chaincode_id --  {string}
+               tx_id -- {string}
+               event_name -- {string}
+               payload -- {byte}
+            response
+               status -- {int}
+               message -- {string}
+               payload -- {byte}
+      endorsements -- [array]
+         endorser
+            Mspid -- {string]
+            IdBytes -- {string}
+         signature -- {byte}
+</pre>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li>protos/peer/transaction.proto</li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
             </dl>
     
 
@@ -1414,7 +2846,7 @@ array of identities specified in the policy. If the type property is "n-of", the
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on 2017-03-29T16:46:42-04:00
+		on 2017-05-18T23:57:23-04:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

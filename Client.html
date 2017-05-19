@@ -40,14 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
+					<li><a href="BlockDecoder.html">BlockDecoder</a></li><li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="tutorial-app-developer-env-setup.html">app-developer-env-setup</a></li><li><a href="tutorial-index_.html">index</a></li><li><a href="tutorial-node-sdk-guide.html">node-sdk-guide</a></li><li><a href="tutorial-node-sdk-indepth.html">node-sdk-indepth</a></li><li><a href="tutorial-sample-standalone-app.html">sample-standalone-app</a></li><li><a href="tutorial-sample-web-app.html">sample-web-app</a></li>
+					<li><a href="tutorial-app-dev-env-setup.html">Setting up the Application Developer's Environment</a></li><li><a href="tutorial-index_.html">Hyperledger Fabric SDK for Node.js Overview</a></li>
 				</ul>
 			</li>
 			
@@ -1136,7 +1136,7 @@ string interpolation methods like <a href="https://nodejs.org/api/util.html#util
 
     
     <div class="description">
-        Calls the orderer to start building the new chain.
+        Calls the orderer to start building the new channel.
 Only one of the application instances needs to call this method.
 Once the chain is successfully created, this and other application
 instances only need to call Chain joinChannel() to participate on the channel.
@@ -1191,11 +1191,19 @@ instances only need to call Chain joinChannel() to participate on the channel.
 
             
 
-            <td class="description last">An object containing the following field:
-     <br>`name` : required - The name of the new channel
-     <br>`orderer` : required - Orderer Object to create the channel
-		<br>`envelope` : required - byte[] of the envelope object containing
-                         all required settings to initialize this channel</td>
+            <td class="description last">An object containing the following fields:
+     <br>`name` : required - {string} The name of the new channel
+     <br>`orderer` : required - {Orderer} object instance representing the
+                     Orderer to send the create request
+     <br>`envelope` : optional - byte[] of the envelope object containing all
+                      required settings and signatures to initialize this channel.
+                      This envelope would have been created by the command
+                      line tool "configtx".
+     <br>`config` : optional - {byte[]} Protobuf ConfigUpdate object extracted from
+                    a ConfigEnvelope created by the ConfigTX tool.
+                    see extractChannelConfig()
+     <br>`signatures` : optional - {ConfigSignature[]} the list of collected signatures
+                        required by the channel create policy when using the `config` parameter.</td>
         </tr>
 
     
@@ -1259,7 +1267,7 @@ instances only need to call Chain joinChannel() to participate on the channel.
     
             
 <div class="param-desc">
-    Whether the chain initialization process was successful.
+    Result Object with status on the create process.
 </div>
 
 
@@ -1270,7 +1278,306 @@ instances only need to call Chain joinChannel() to participate on the channel.
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type">Result</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="createUser"><span class="type-signature"></span>createUser(opts)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Returns an authorized user loaded using the
+private key and pre-enrolled certificate from files
+based on the MSP config directory structure:
+<br>root
+<br>&nbsp;&nbsp;&nbsp;\_ keystore
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\_ admin.pem  <<== this is the private key saved in PEM file
+<br>&nbsp;&nbsp;&nbsp;\_ signcerts
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\_ admin.pem  <<== this is the signed certificate saved in PEM file
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><br>- username {string} - the user name used for enrollment
+<br>- mspid {string} - the MSP id
+<br>
+<br>- cryptoContent {object}
+<br>---- privateKey {string} - the PEM file name including the root path - required when using the file system
+<br>---- signedCert {string} - the PEM file name including the root path - required when using the file system
+<br>---- or
+<br>---- privateKeyPEM {string} - the PEM string - required when no file system is available
+<br>---- signedCertPEM {string} - the PEM string - required when no file system is available</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="extractChannelConfig"><span class="type-signature"></span>extractChannelConfig(The)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Extracts the protobuf 'ConfigUpdate' object out of the 'ConfigEnvelope'
+that is produced by the ConfigTX tool. The returned object may then be
+signed using the signChannelConfig() method of this class. Once the all
+signatures have been collected this object and the signatures may be used
+on the updateChannel or createChannel requests.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>The</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;byte></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">bytes of the ConfigEnvelope protopuf</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The bytes of the ConfigUpdate protobuf
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;byte></span>
 
 
 
@@ -1573,7 +1880,7 @@ Peers for that information.
             
 <hr>
 <dt>
-    <h4 class="name" id="getUserContext"><span class="type-signature"></span>getUserContext(name)</h4>
+    <h4 class="name" id="getUserContext"><span class="type-signature"></span>getUserContext(name, checkPersistence)</h4>
     
     
 </dt>
@@ -1581,7 +1888,11 @@ Peers for that information.
 
     
     <div class="description">
-        As explained above, the client instance can have an optional state store. The SDK saves enrolled users
+        Returns the user with the signing identity. This can be a synchronous call or asynchronous call, depending
+on whether "checkPersistent" is truthy or not. If truthy, the method is asynchronous and returns a Promise,
+otherwise it's synchronous.
+
+As explained above, the client instance can have an optional state store. The SDK saves enrolled users
 in the storage which can be accessed by authorized users of the application (authentication is done by
 the application outside of the SDK). This function attempts to load the user by name from the local storage
 (via the KeyValueStore interface). The loaded user object must represent an enrolled user with a valid
@@ -1640,6 +1951,32 @@ enrollment certificate signed by a trusted CA (such as the CA server).
             <td class="description last">Optional. If not specified, will only return the in-memory user context object, or null
 if not found in memory. If "name" is specified, will also attempt to load it from the state store if search
 in memory failed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>checkPersistence</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Optional. If specified and truthy, the method returns a Promise and will
+attempt to check the state store for the requested user by the "name". If not specified or falsey, the method
+is synchronous and returns the requested user from memory</td>
         </tr>
 
     
@@ -2253,6 +2590,415 @@ a list of participating endorsers and orderer peers must be configured first on 
     <dd>
         
 <span class="param-type"><a href="Chain.html">Chain</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="newCryptoKeyStore"><span class="type-signature"></span>newCryptoKeyStore(KVSImplClass, opts)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Returns a new instance of the CryptoKeyStore.
+
+When the application needs to use a key store other than the default,
+it should create a new CryptoKeyStore and set it on the CryptoSuite.
+
+cryptosuite.setCryptoKeyStore(client.newCryptoKeyStore(KVSImplClass, opts))
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>KVSImplClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Optional. The built-in key store saves private keys. The key store may be backed by different
+KeyValueStore implementations. If specified, the value of the argument must point to a module implementing the
+KeyValueStore interface.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Implementation-specific option object used in the constructor
+returns a new instance of the CryptoKeystore</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="newCryptoSuite"><span class="type-signature"></span>newCryptoSuite(setting)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Returns a new instance of the CryptoSuite API implementation.
+
+Creating a new CryptoSuite is optional and should be used if options other than defaults are needed.
+This instance should be set on the User and the Fabric CA Client.
+
+If not specified, an instance of CryptoSuite will be constructed based on the current configuration settings:
+crypto-hsm: use an implementation for Hardware Security Module (if set to true) or software-based key management (if set to false)
+crypto-keysize: security level, or key size, to use with the digital signature public key algorithm. Currently ECDSA
+ is supported and the valid key sizes are 256 and 384
+crypto-hash-algo: hashing algorithm
+key-value-store: some CryptoSuite implementation requires a key store to persist private keys. A <a href="CryptoKeyStore.html">CryptoKeyStore</a>
+ is provided for this purpose, which can be used on top of any implementation of the KeyValueStore interface,
+ such as a file-based store or a database-based one. The specific implementation is determined by the value of this configuration setting.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setting</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">This optional parameter is an object with the following optional properties:
+- software {boolean}: Whether to load a software-based implementation (true) or HSM implementation (false)
+   default is true (for software based implementation), specific implementation module is specified
+   in the setting 'crypto-suite-software'
+- keysize {number}: The key size to use for the crypto suite instance. default is value of the setting 'crypto-keysize'
+- algorithm {string}: Digital signature algorithm, currently supporting ECDSA only with value "EC"
+- hash {string}: 'SHA2' or 'SHA3'
+returns a new instance of the CryptoSuite API implementation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="newMSP"><span class="type-signature"></span>newMSP()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        build an new MSP with the definition.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The newly created MSP object.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="MSP.html">MSP</a></span>
 
 
 
@@ -3623,6 +4369,323 @@ method will attempt to save the user object to the state store.</td>
     
 </dd>
 
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="signChannelConfig"><span class="type-signature"></span>signChannelConfig(config)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Sign a configuration
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>config</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;byte></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The Configuration Update in byte form</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    - The signature of the current user on the config bytes
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ConfigSignature</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="updateChannel"><span class="type-signature"></span>updateChannel(request)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Calls the orderer to update an existing channel.
+Only one of the application instances needs to call this method.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>request</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object containing the following fields:
+     <br>`name` : required - {string} The name of the new channel
+     <br>`orderer` : required - {Orderer} object instance representing the
+                     Orderer to send the update request
+     <br>`envelope` : optional - byte[] of the envelope object containing all
+                      required settings and signatures to initialize this channel.
+                      This envelope would have been created by the command
+                      line tool "configtx".
+     <br>`config` : optional - {byte[]} Protobuf ConfigUpdate object built by the
+                    buildChannelConfig() method of this class.
+     <br>`signatures` : optional - {ConfigSignature[]} the list of collected signatures
+                        required by the channel create policy when using the `config` parameter.
+                        see signChannelConfig() method of this class</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Result Object with status on the update process.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Result</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
         </dl>
     
 
@@ -3673,7 +4736,7 @@ method will attempt to save the user object to the state store.</td>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on 2017-03-29T16:46:42-04:00
+		on 2017-05-18T23:57:23-04:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

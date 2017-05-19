@@ -40,14 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
+					<li><a href="BlockDecoder.html">BlockDecoder</a></li><li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="tutorial-app-developer-env-setup.html">app-developer-env-setup</a></li><li><a href="tutorial-index_.html">index</a></li><li><a href="tutorial-node-sdk-guide.html">node-sdk-guide</a></li><li><a href="tutorial-node-sdk-indepth.html">node-sdk-indepth</a></li><li><a href="tutorial-sample-standalone-app.html">sample-standalone-app</a></li><li><a href="tutorial-sample-web-app.html">sample-web-app</a></li>
+					<li><a href="tutorial-app-dev-env-setup.html">Setting up the Application Developer's Environment</a></li><li><a href="tutorial-index_.html">Hyperledger Fabric SDK for Node.js Overview</a></li>
 				</ul>
 			</li>
 			
@@ -107,7 +107,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="FabricCAServices"><span class="type-signature"></span>new FabricCAServices(url, tlsOptions, cryptoSetting, KVSImplClass, opts)</h4>
+    <h4 class="name" id="FabricCAServices"><span class="type-signature"></span>new FabricCAServices(url, tlsOptions, caName, cryptoSuite)</h4>
     
     
 </dt>
@@ -198,13 +198,13 @@
 
         <tr>
             
-                <td class="name"><code>cryptoSetting</code></td>
+                <td class="name"><code>caName</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
 
@@ -215,25 +215,21 @@
 
             
 
-            <td class="description last">This optional parameter is an object with the following optional properties:
-- software {boolean}: Whether to load a software-based implementation (true) or HSM implementation (false)
-	default is true (for software based implementation), specific implementation module is specified
-	in the setting 'crypto-suite-software'
-- keysize {number}: The key size to use for the crypto suite instance. default is value of the setting 'crypto-keysize'
-- algorithm {string}: Digital signature algorithm, currently supporting ECDSA only with value "EC"</td>
+            <td class="description last">The optional name of the CA. Fabric-ca servers support multiple Certificate Authorities from
+ a single server. If omitted or null or an empty string, then the default CA is the target of requests</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>KVSImplClass</code></td>
+                <td class="name"><code>cryptoSuite</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">CryptoSuite</span>
 
 
 
@@ -244,33 +240,15 @@
 
             
 
-            <td class="description last">Optional. The built-in key store saves private keys. The key store may be backed by different
-KeyValueStore implementations. If specified, the value of the argument must point to a module implementing the
-KeyValueStore interface.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>opts</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Implementation-specific options object for the KeyValueStore class to instantiate an instance</td>
+            <td class="description last">The optional cryptoSuite instance to be used if options other than defaults are needed.
+If not specified, an instance of CryptoSuite will be constructed based on the current configuration settings:
+crypto-hsm: use an implementation for Hardware Security Module (if set to true) or software-based key management (if set to false)
+crypto-keysize: security level, or key size, to use with the digital signature public key algorithm. Currently ECDSA
+ is supported and the valid key sizes are 256 and 384
+crypto-hash-algo: hashing algorithm
+key-value-store: some CryptoSuite implementation requires a key store to persist private keys. A <a href="CryptoKeyStore.html">CryptoKeyStore</a>
+ is provided for this purpose, which can be used on top of any implementation of the KeyValueStore interface,
+ such as a file-based store or a database-based one. The specific implementation is determined by the value of this configuration setting.</td>
         </tr>
 
     
@@ -353,6 +331,271 @@ KeyValueStore interface.</td>
         <h3 class="subsection-title">Methods</h3>
 
         <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".newCryptoSuite"><span class="type-signature">&lt;static> </span>newCryptoSuite(setting, KVSImplClass, opts)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Returns a new instance of the CryptoSuite API implementation
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setting</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">This optional parameter is an object with the following optional properties:
+- software {boolean}: Whether to load a software-based implementation (true) or HSM implementation (false)
+   default is true (for software based implementation), specific implementation module is specified
+   in the setting 'crypto-suite-software'
+- keysize {number}: The key size to use for the crypto suite instance. default is value of the setting 'crypto-keysize'
+- algorithm {string}: Digital signature algorithm, currently supporting ECDSA only with value "EC"
+- hash {string}: 'SHA2' or 'SHA3'</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>KVSImplClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Optional. The built-in key store saves private keys. The key store may be backed by different
+KeyValueStore implementations. If specified, the value of the argument must point to a module implementing the
+KeyValueStore interface.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Implementation-specific option object used in the constructor
+returns a new instance of the CryptoSuite API implementation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".normalizeX509"><span class="type-signature">&lt;static> </span>normalizeX509()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Make sure there's a start line with '-----BEGIN CERTIFICATE-----'
+and end line with '-----END CERTIFICATE-----', so as to be compliant
+with x509 parsers
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
             
 <hr>
 <dt>
@@ -563,6 +806,146 @@ KeyValueStore interface.</td>
             
 <hr>
 <dt>
+    <h4 class="name" id="reenroll"><span class="type-signature"></span>reenroll(currentUser)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Re-enroll the member in cases such as the existing enrollment certificate is about to expire, or
+it has been compromised
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>currentUser</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="User.html">User</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The identity of the current user that holds the existing enrollment certificate</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Promise for an object with "key" for private key and "certificate" for the signed certificate
+</div>
+
+
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
     <h4 class="name" id="register"><span class="type-signature"></span>register(req, registrar)</h4>
     
     
@@ -625,6 +1008,8 @@ KeyValueStore interface.</td>
 
             <td class="description last">Registration request with the following fields:
 <br> - enrollmentID {string}. ID which will be used for enrollment
+<br> - enrollmentSecret {string}. Optional enrollment secret to set for the registered user.
+  If not provided, the server will generate one.
 <br> - role {string}. An arbitrary string representing a role value for the user
 <br> - affiliation {string}. Affiliation with which this user will be associated, like a company or an organization
 <br> - maxEnrollments {number}. The maximum number of times this user will be permitted to enroll
@@ -1052,7 +1437,7 @@ then all future requests to enroll this id will be rejected.
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on 2017-03-29T16:46:42-04:00
+		on 2017-05-18T23:57:23-04:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

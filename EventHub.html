@@ -40,14 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
+					<li><a href="BlockDecoder.html">BlockDecoder</a></li><li><a href="Chain.html">Chain</a></li><li><a href="Client.html">Client</a></li><li><a href="CouchDBKeyValueStore.html">CouchDBKeyValueStore</a></li><li><a href="CryptoKeyStore.html">CryptoKeyStore</a></li><li><a href="CryptoSuite_ECDSA_AES.html">CryptoSuite_ECDSA_AES</a></li><li><a href="CryptoSuite_PKCS11.html">CryptoSuite_PKCS11</a></li><li><a href="EndorsementPolicy.html">EndorsementPolicy</a></li><li><a href="EventHub.html">EventHub</a></li><li><a href="FabricCAClient.html">FabricCAClient</a></li><li><a href="FabricCAServices.html">FabricCAServices</a></li><li><a href="FileKeyValueStore.html">FileKeyValueStore</a></li><li><a href="module-api.CryptoSuite.html">api.CryptoSuite</a></li><li><a href="module-api.Key.html">api.Key</a></li><li><a href="module-api.KeyValueStore.html">api.KeyValueStore</a></li><li><a href="MSP.html">MSP</a></li><li><a href="Orderer.html">Orderer</a></li><li><a href="Peer.html">Peer</a></li><li><a href="Remote.html">Remote</a></li><li><a href="User.html">User</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="tutorial-app-developer-env-setup.html">app-developer-env-setup</a></li><li><a href="tutorial-index_.html">index</a></li><li><a href="tutorial-node-sdk-guide.html">node-sdk-guide</a></li><li><a href="tutorial-node-sdk-indepth.html">node-sdk-indepth</a></li><li><a href="tutorial-sample-standalone-app.html">sample-standalone-app</a></li><li><a href="tutorial-sample-web-app.html">sample-web-app</a></li>
+					<li><a href="tutorial-app-dev-env-setup.html">Setting up the Application Developer's Environment</a></li><li><a href="tutorial-index_.html">Hyperledger Fabric SDK for Node.js Overview</a></li>
 				</ul>
 			</li>
 			
@@ -212,10 +212,7 @@ event source(peer)</div>
 
     
     <div class="description">
-        Establishes connection with peer event source<p>
-Note: Only use this if creating your own EventHub. The chain
-class creates a default eventHub that most Node clients can
-use (see eventHubConnect, eventHubDisconnect and getEventHub).
+        Establishes connection with peer event source
     </div>
     
 
@@ -293,10 +290,9 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
 
     
     <div class="description">
-        Disconnects peer event source<p>
-Note: Only use this if creating your own EventHub. The chain
-class creates a default eventHub that most Node clients can
-use (see eventHubConnect, eventHubDisconnect and getEventHub).
+        Disconnects the connection to the peer event source.
+Will close all event listeners and send an `Error` to
+all listeners that provided an "onError" callback.
     </div>
     
 
@@ -455,7 +451,7 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
             
 <hr>
 <dt>
-    <h4 class="name" id="registerBlockEvent"><span class="type-signature"></span>registerBlockEvent(callback)</h4>
+    <h4 class="name" id="registerBlockEvent"><span class="type-signature"></span>registerBlockEvent(onEvent, onError)</h4>
     
     
 </dt>
@@ -464,6 +460,9 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
     
     <div class="description">
         Register a callback function to receive block events.
+This EventHub instance must be connected to a remote
+peer's event hub before registering for events by calling
+the "connect()" method.
     </div>
     
 
@@ -498,7 +497,7 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>onEvent</code></td>
             
 
             <td class="type">
@@ -516,8 +515,33 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
             
 
             <td class="description last">Function that takes a single parameter
-which is a json object representation of type "message Block"
-from lib/proto/fabric.proto</td>
+which is a JSON object representation of type GRPC message "Block"
+from lib/proto/common/common.proto.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">optional callback function to be notified when this
+event hub is shutdown.</td>
         </tr>
 
     
@@ -561,6 +585,13 @@ from lib/proto/fabric.proto</td>
 	
 
 	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="global.html#Block">Block</a></li>
+			</ul>
+	</dd>
+	
 
 	
 </dl>
@@ -577,6 +608,31 @@ from lib/proto/fabric.proto</td>
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    This is the block registration number that must be
+used to unregister (see unregisterBlockEvent)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">int</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
 
     
 </dd>
@@ -585,7 +641,7 @@ from lib/proto/fabric.proto</td>
             
 <hr>
 <dt>
-    <h4 class="name" id="registerChaincodeEvent"><span class="type-signature"></span>registerChaincodeEvent(ccid, eventname, callback)</h4>
+    <h4 class="name" id="registerChaincodeEvent"><span class="type-signature"></span>registerChaincodeEvent(ccid, eventname, onEvent, onError)</h4>
     
     
 </dt>
@@ -594,6 +650,9 @@ from lib/proto/fabric.proto</td>
     
     <div class="description">
         Register a callback function to receive chaincode events.
+This EventHub instance must be connected to a remote
+peer's event hub before registering for events by calling
+the "connect()" method.
     </div>
     
 
@@ -676,7 +735,7 @@ from lib/proto/fabric.proto</td>
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>onEvent</code></td>
             
 
             <td class="type">
@@ -693,9 +752,34 @@ from lib/proto/fabric.proto</td>
 
             
 
-            <td class="description last">Function Callback function for filter matches
+            <td class="description last">callback function for filter matches
 that takes a single parameter which is a json object representation
-of type "message ChaincodeEvent" from lib/proto/chaincodeevent.proto</td>
+of type "message ChaincodeEvent" from lib/proto/chaincode_event.proto</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">optional callback function to be notified when this
+event hub is shutdown.</td>
         </tr>
 
     
@@ -788,7 +872,7 @@ handle used to unregister (see unregisterChaincodeEvent)
             
 <hr>
 <dt>
-    <h4 class="name" id="registerTxEvent"><span class="type-signature"></span>registerTxEvent(txid, callback)</h4>
+    <h4 class="name" id="registerTxEvent"><span class="type-signature"></span>registerTxEvent(txid, onEvent, onError)</h4>
     
     
 </dt>
@@ -796,10 +880,10 @@ handle used to unregister (see unregisterChaincodeEvent)
 
     
     <div class="description">
-        Register a callback function to receive transactional events.<p>
-Note: transactional event registration is primarily used by
-the sdk to track instantiate and invoke completion events. Nodejs
-clients generally should not need to call directly.
+        Register a callback function to receive transactional events.
+This EventHub instance must be connected to a remote
+peer's event hub before registering for events by calling
+the "connect()" method.
     </div>
     
 
@@ -858,7 +942,7 @@ clients generally should not need to call directly.
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>onEvent</code></td>
             
 
             <td class="type">
@@ -879,6 +963,31 @@ clients generally should not need to call directly.
 is a json object representation of type "message Transaction"
 from lib/proto/fabric.proto and a parameter which is a boolean
 that indicates if the transaction is invalid (true=invalid)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">optional callback function to be notified when this
+event hub is shutdown.</td>
         </tr>
 
     
@@ -1041,7 +1150,7 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
    hostname (in the 'CN' field) does not match the actual host endpoint that the server process runs
    at, the application can work around the client TLS verify failure by setting this property to the
    value of the server certificate's hostname
-<br>- any other standard grpc call options will be passed to the grpc service calls directly</td>
+<br>- any other standard grpc stream options will be passed to the grpc service calls directly</td>
         </tr>
 
     
@@ -1109,7 +1218,7 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
             
 <hr>
 <dt>
-    <h4 class="name" id="txCallback"><span class="type-signature"></span>txCallback(block)</h4>
+    <h4 class="name" id="unregisterBlockEvent"><span class="type-signature"></span>unregisterBlockEvent(The)</h4>
     
     
 </dt>
@@ -1117,7 +1226,8 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
 
     
     <div class="description">
-        private internal callback for processing tx events
+        Unregister the block event listener with the block
+registration number.
     </div>
     
 
@@ -1152,13 +1262,13 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
 
         <tr>
             
-                <td class="name"><code>block</code></td>
+                <td class="name"><code>The</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">int</span>
 
 
 
@@ -1169,8 +1279,8 @@ use (see eventHubConnect, eventHubDisconnect and getEventHub).
 
             
 
-            <td class="description last">json object representing block of tx
-from the fabric</td>
+            <td class="description last">block registration number that was returned
+during registration.</td>
         </tr>
 
     
@@ -1238,135 +1348,7 @@ from the fabric</td>
             
 <hr>
 <dt>
-    <h4 class="name" id="unregisterBlockEvent"><span class="type-signature"></span>unregisterBlockEvent(callback)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Unregister block event registration
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Function to unregister</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="unregisterChaincodeEvent"><span class="type-signature"></span>unregisterChaincodeEvent(ChainCodeCBE)</h4>
+    <h4 class="name" id="unregisterChaincodeEvent"><span class="type-signature"></span>unregisterChaincodeEvent(cbe)</h4>
     
     
 </dt>
@@ -1409,7 +1391,7 @@ from the fabric</td>
 
         <tr>
             
-                <td class="name"><code>ChainCodeCBE</code></td>
+                <td class="name"><code>cbe</code></td>
             
 
             <td class="type">
@@ -1426,7 +1408,7 @@ from the fabric</td>
 
             
 
-            <td class="description last">handle returned from call to
+            <td class="description last">ChainCodeCBE handle return from call to
 registerChaincodeEvent.</td>
         </tr>
 
@@ -1663,7 +1645,7 @@ registerChaincodeEvent.</td>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
 	
-		on 2017-03-29T16:46:42-04:00
+		on 2017-05-18T23:57:23-04:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
